@@ -44,7 +44,7 @@ pipeline = AutoPipelineForText2Image.from_pretrained(
   torch_dtype=torch.float16).to("cuda")
 
 image = pipeline(
-  prompt="Bill Gates with a hoodie under the blue sky", 
+  prompt="Leonardo da Vinci with a hoodie under the blue sky", 
   negative_prompt="ugly, deformed, disfigured, poor details, bad anatomy, bad face, bad finger", 
   num_inference_steps=25, 
   guidance_scale=7.5).images[0]
@@ -285,7 +285,7 @@ pipeline = AutoPipelineForText2Image.from_pretrained(
 pipeline.load_lora_weights(os.environ["OUTPUT_DIR"], weight_name="pytorch_lora_weights.safetensors")
 
 image = pipeline(
-  prompt="Bill Gates with a hoodie under the blue sky", 
+  prompt="Leonardo da Vinci with a hoodie under the blue sky", 
   negative_prompt="ugly, deformed, disfigured, poor details, bad anatomy, bad face, bad finger", 
   num_inference_steps=25, 
   guidance_scale=7.5).images[0]
@@ -306,7 +306,7 @@ show_image(image)
 import os
 import glob
 
-persons = ["Steve Jobs", "Donald Trump", "Angelina Jolie", "Beyoncé", "Michael Jackson"]
+persons = ["Abraham Lincoln", "William Shakespeare", "Cleopatra", "Marie Curie", "Wolfgang Amadeus Mozart"]
 num_imgs_to_preview = len(persons)
 imgs = []
 for person in persons:
