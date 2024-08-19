@@ -75,7 +75,7 @@ my_json = {
             {
                 "model_name": model_name,
                 "model_version": model_version,
-                "workload_type": "GPU_MEDIUM",
+                "workload_type": "GPU_LARGE",
                 "workload_size": "Small",
                 "scale_to_zero_enabled": "false",
             }
@@ -239,7 +239,7 @@ token = (
 java_tags = dbutils.notebook.entry_point.getDbutils().notebook().getContext().tags()
 tags = sc._jvm.scala.collection.JavaConversions.mapAsJavaMap(java_tags)
 instance = tags["browserHostName"]
-model_serving_endpoint_name = "hiroshi-sdxl-naruto-endpoint"
+model_serving_endpoint_name = "sdxl-fine-tuned-naruto"
 # Replace URL with the end point invocation url you get from Model Seriving page.
 endpoint_url = (
     f"https://{instance}/serving-endpoints/{model_serving_endpoint_name}/invocations"
