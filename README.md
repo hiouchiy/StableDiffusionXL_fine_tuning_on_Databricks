@@ -32,6 +32,95 @@ Before fine-tuning, we test the normal version of the Stable Diffusion XL model 
 
 We utilize the `naruto-blip-captions` dataset from HuggingFace to fine-tune the model. The dataset is prepared and stored in Unity Catalog Volumes for efficient access during training.
 
+### 3.1 Using a Pre-existing Dataset from HuggingFace
+
+If you wish to use a pre-existing dataset, you can easily load it from HuggingFace, as shown below:
+
+```python
+from datasets import load_dataset
+dataset = load_dataset("lambdalabs/naruto-blip-captions")
+
+# Preview some images from the dataset
+show_image_grid(dataset["train"][:25]["image"], 5, 5)
+```
+
+### 3.2 Creating a Dataset from Scratch
+
+If you prefer to create your own dataset from scratch, follow the steps below. This involves collecting images, annotating them with captions, and formatting the data appropriately for training with the Stable Diffusion model.
+
+#### Step 1: Collect Images
+
+First, gather your images in a directory. Ensure all images are in a consistent format (e.g., `.jpg`, `.png`) and have appropriate filenames.
+
+```bash
+mkdir -p dataset/images
+# Add your images to the 'dataset/images' directory
+```
+
+#### Step 2: Create Captions
+
+Create a JSON or CSV file to store captions associated with each image. Here’s an example of a JSON format:
+
+```json
+{
+    "images": [
+        {"file_name": "image1.jpg", "caption": "A picture of a cat sitting on a chair"},
+        {"file_name": "image2.jpg", "caption": "A beautiful sunset over the mountains"}
+        // Add more entries here
+    ]
+}
+```
+
+Save this file as `captions.json` in the same directory as your images.
+
+#### Step 3: Load and Format the Dataset
+
+Next, you can load the images and captions into a format compatible with Hugging Face's `datasets` library:
+
+```python
+import json
+import os
+from PIL import Image
+from datasets import Dataset
+
+def load_custom_dataset(image_dir, caption_file):
+    with open(caption_file, 'r') as f:
+        captions = json.load(f)
+
+    data = {
+        "image": [],
+        "text": []
+    }
+
+    for item in captions["images"]:
+        img_path = os.path.join(image_dir, item["file_name"])
+        image = Image.open(img_path).convert("RGB")
+        data["image"].append(image)
+        data["text"].append(item["caption"])
+
+    return Dataset.from_dict(data)
+
+# Load the dataset
+image_dir = "dataset/images"
+caption_file = "dataset/captions.json"
+custom_dataset = load_custom_dataset(image_dir, caption_file)
+
+# Preview some images and captions
+show_image_grid([img for img in custom_dataset["image"][:5]], 1, 5)
+print(custom_dataset["text"][:5])
+```
+
+#### Step 4: Save the Dataset to Unity Catalog
+
+Once the dataset is prepared, you can save it into Unity Catalog Volumes:
+
+```python
+dataset_volumes_dir = f"/Volumes/{catalog}/{theme}/{volume}"
+custom_dataset.save_to_disk(dataset_volumes_dir)
+```
+
+This code provides a basic framework for creating and using a custom dataset, which can be adjusted to fit your specific needs.
+
 ## 4. Fine-tuning the Model
 
 The fine-tuning process involves several steps:
