@@ -2,8 +2,8 @@
 
 This repository contains two Databricks notebooks designed to fine-tune and deploy the Stable Diffusion XL model using LoRA (Low-Rank Adaptation). The process is optimized for running on Databricks GPU instances and is split into the following notebooks:
 
-- `01_fine_tuning_text_to_image_lora.py`: Covers steps from generating an initial image to registering the fine-tuned model in Unity Catalog.
-- `02_deploy_model.py`: Focuses on deploying the model using a REST API for serving the fine-tuned model.
+- `01_fine_tuning_text_to_image_lora.py`: Covers steps from "2. Generating an Initial Image" to "7. Registering the Model to Unity Catalog".
+- `02_deploy_model.py`: Focuses on "8. Model Serving with REST API".
 
 ## Table of Contents
 1. [Setup Environment](#1-setup-environment)
