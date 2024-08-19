@@ -483,7 +483,7 @@ loaded_model = mlflow.pyfunc.load_model(logged_model)
 # Use any of the following token to generate personalized images: 'bcnchr', 'emslng', 'hsmnchr', 'rckchr', 'wdnchr'
 input_example = pd.DataFrame(
     {
-        "prompt": ["A photo of bill gates with a hoodie under the blue sky"], 
+        "prompt": ["A photo of Leonardo da Vinci with a hoodie under the blue sky"], 
         "negative_prompt": ["ugly, deformed, disfigured, poor details, bad anatomy"], 
         "num_inference_steps": [25],
     }

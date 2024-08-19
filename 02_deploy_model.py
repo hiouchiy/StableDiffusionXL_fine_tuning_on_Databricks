@@ -266,7 +266,7 @@ def generate_image(dataset, url=endpoint_url, databricks_token=token):
 
 prompt = pd.DataFrame(
     {
-        "prompt": ["Bill Gates with a hoodie under the blue sky"], 
+        "prompt": ["Leonardo da Vinci with a hoodie under the blue sky"], 
         "negative_prompt": ["ugly, deformed, disfigured, poor details, bad anatomy, bad face, bad finger"], 
         "num_inference_steps": 25
     }
