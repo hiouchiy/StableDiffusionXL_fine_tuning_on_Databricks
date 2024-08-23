@@ -90,8 +90,8 @@ Next, you can load the images and captions into a format compatible with Hugging
 ```python
 import json
 import os
-from PIL import Image
-from datasets import Dataset
+import PIL
+from datasets import Dataset, Image, DatasetDict
 
 def load_custom_dataset(image_dir, caption_file):
     with open(caption_file, 'r') as f:
@@ -104,11 +104,13 @@ def load_custom_dataset(image_dir, caption_file):
 
     for item in captions["images"]:
         img_path = os.path.join(image_dir, item["file_name"])
-        image = Image.open(img_path).convert("RGB")
+        image = PIL.Image.open(img_path).convert("RGB")
         data["image"].append(image)
         data["text"].append(item["caption"])
 
-    return Dataset.from_dict(data)
+    train_data = Dataset.from_dict(data).cast_column("image", Image())
+
+    return DatasetDict({"train": train_data})
 
 # Load the dataset
 image_dir = "dataset/images"
