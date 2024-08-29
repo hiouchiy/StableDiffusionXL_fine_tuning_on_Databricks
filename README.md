@@ -56,20 +56,29 @@ show_image_grid(dataset["train"][:25]["image"], 5, 5)
 
 ### 3.2 Creating a Dataset from Scratch
 
-If you prefer to create your own dataset from scratch, follow the steps below. This involves collecting images, annotating them with captions, and formatting the data appropriately for training with the Stable Diffusion model.
+If you prefer to create your own dataset using your private data from scratch, follow the steps below. This involves collecting images, annotating them with captions, and formatting the data appropriately for training with the Stable Diffusion model.
 
 #### Step 1: Collect Images
 
-First, gather your images in a directory. Ensure all images are in a consistent format (e.g., `.jpg`, `.png`) and have appropriate filenames.
+First, gather your images in the Unity Catalog Volume. Ensure all images are in a consistent format (e.g., `.jpg`, `.png`) and have appropriate filenames.
 
 ```bash
-mkdir -p dataset/images
-# Add your images to the 'dataset/images' directory
+catalog = "your_catalog_name"
+schema = "your_schema_name" 
+volume = "your_volume_name"
+
+# Make sure that the catalog and the schema exist
+_ = spark.sql(f"CREATE CATALOG IF NOT EXISTS {catalog}") 
+_ = spark.sql(f"CREATE SCHEMA IF NOT EXISTS {catalog}.{schema}") 
+_ = spark.sql(f"CREATE VOLUME IF NOT EXISTS {catalog}.{schema}.{volume}")
+
+# Add your images to the volume you just made with above command.
+https://docs.databricks.com/en/ingestion/file-upload/upload-to-volume.html
 ```
 
 #### Step 2: Create Captions
 
-Create a JSON or CSV file to store captions associated with each image. Here’s an example of a JSON format:
+Create a JSON file to store captions associated with each image. Here’s an example of a JSON format:
 
 ```json
 {
